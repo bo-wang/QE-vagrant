@@ -1,0 +1,32 @@
+Vagrant.configure(2) do |config|
+  config.vm.define 'win10_java'
+  config.vm.box = 'gusztavvargadr/windows10ee-vs2015c'
+  #config.vm.box_url = 'file:////vistaprint.net/amsterdam/Share/Exchange%20Folder/Gusztav/.vagrant.d/boxes/albumprinter--gv-java-workstation-8--0.3.0--virtualbox'
+
+  config.vm.provider 'virtualbox' do |virtualbox|
+    virtualbox.name = 'win10_java.vagrant'
+    virtualbox.memory = 6000
+    virtualbox.cpus = 2
+  end
+
+  config.vm.network "private_network", ip: "172.16.43.115"
+  config.vm.network :forwarded_port, guest: 3389, host: 56389, id: "rdp", auto_correct: true
+
+  config.vm.provision "shell", inline: $provision
+  config.vm.provision "file", source: "./autotools/chromedriver.exe", destination: "c:/autotools/chromedriver.exe"
+  config.vm.provision "shell", inline: "cinst conemu -y"
+  config.vm.provision "shell", inline: "cinst sourcetree -y"
+  config.vm.provision "shell", inline: "cinst tortoisesvn -y"
+  config.vm.provision "shell", inline: "cinst atom -y"
+  config.vm.provision "shell", inline: "cinst googlechrome -y"
+  config.vm.provision "shell", inline: "cinst firefox -y"
+  config.vm.provision "shell", inline: "cinst jdk8 -y"
+  config.vm.provision "shell", inline: "cinst maven -y"
+  config.vm.provision "shell", inline: "cinst intellijidea-community -y"
+
+end
+
+$provision = <<provision
+mkdir C:/autotools
+setx PATH "C:\\autotools"
+provision

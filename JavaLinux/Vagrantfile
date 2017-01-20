@@ -1,0 +1,20 @@
+Vagrant.configure(2) do |config|
+  config.vm.define 'javalinux'
+  config.vm.box = 'bento/ubuntu-16.04'
+  #config.vm.box_url = 'file:////vistaprint.net/amsterdam/Share/Exchange%20Folder/Gusztav/vagrant/albumprinter--gv-windows10ee-default--0.4.0--virtualbox.box'
+
+  config.vm.provider 'virtualbox' do |virtualbox|
+    virtualbox.name = 'javalinux.vagrant'
+    virtualbox.memory = 4096
+    virtualbox.cpus = 2
+	virtualbox.gui = true
+  end
+
+config.ssh.username = "vagrant"
+config.ssh.password = "vagrant"
+#config.vm.provision "shell", inline: <<-SHELL
+#      echo "ubuntu:ubuntu" | sudo chpasswd
+#    SHELL
+  config.vm.network "private_network", ip: "172.16.43.115"
+  config.vm.network :forwarded_port, guest: 3389, host: 63199, id: "rdp", auto_correct: true
+end

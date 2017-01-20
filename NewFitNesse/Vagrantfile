@@ -1,0 +1,22 @@
+Vagrant.configure(2) do |config|
+  config.vm.define 'javawin10'
+  config.vm.box = 'albumprinter/win10-java-workstation-8'
+  config.vm.box_url = 'file:////vistaprint.net/amsterdam/Share/Exchange%20Folder/Gusztav/vagrant/albumprinter--gv-windows10ee-default--0.4.0--virtualbox.box'
+
+  config.vm.provider 'virtualbox' do |virtualbox|
+    virtualbox.name = 'javawin10.vagrant'
+  end
+
+  config.vm.network "private_network", ip: "172.16.43.115"
+  config.vm.network :forwarded_port, guest: 3389, host: 63389, id: "rdp", auto_correct: true
+
+  config.vm.provision "shell", inline: "cinst conemu -y"
+  config.vm.provision "shell", inline: "cinst sourcetree -y"
+  config.vm.provision "shell", inline: "cinst atom -y"
+  config.vm.provision "shell", inline: "cinst googlechrome -y"
+  config.vm.provision "shell", inline: "cinst firefox -y"
+  config.vm.provision "shell", inline: "cinst git -y"
+  config.vm.provision "shell", inline: "cinst jdk8 -y"
+  config.vm.provision "shell", inline: "cinst maven -y"
+  config.vm.provision "shell", inline: "cinst intellijidea-community -y"
+end
